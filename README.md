@@ -148,11 +148,11 @@ columns and more than 50% have only one active target column shown in figure 1.
 Also, figure 2 shows that the biggest number of positive samples for 1 target  
 column is 3.5%.
 
-![image](https://github.com/ashish-singh-CS/Mechanisms-of-Action-MoA-Prediction/tree/main/img/data2.png)
+![](img/data2.png)
 
 [fig: Number of activations in targets for every sample (in percent)]
 
-![image](https://github.com/ashish-singh-CS/Mechanisms-of-Action-MoA-Prediction/tree/main/img/data1.png)
+![](img/data1.png)
 
 [fig: Percent of positive records for every column in target]
 
@@ -183,14 +183,14 @@ Experimental Results
 All decisions made were based on comparing previous validation loss scores with  
 new ones which were a result of modifications done in our project.
 
-![image](https://github.com/ashish-singh-CS/Mechanisms-of-Action-MoA-Prediction/tree/main/img/result.png)
+![](img/result.png)
 
 [fig: Log loss decreased with continued attempts]
 
 With repeated modifications and development, we were able to improve our rank on  
 Kaggle leaderboard
 
-![image](https://github.com/ashish-singh-CS/Mechanisms-of-Action-MoA-Prediction/tree/main/img/rank.png)
+![](img/rank.png)
 
 [fig: Kaggle Leaderboard Position]
 
