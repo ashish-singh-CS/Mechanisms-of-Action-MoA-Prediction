@@ -1,29 +1,5 @@
 # Drugs' Mechanism of Action Prediction
 
-## Abstract
-*Drug development process is replete with a lot of difficulties and obstructions.  
-Towards drug discovery, it is a prudent course of action to first get hands on  
-the understanding of how a drug works before any experiment or observation is  
-started. In pursuit of achieving successful drug discovery, algorithms have been  
-designed that classify drugs based on their biological activity. The goal of   
-this project is to address a multilabel classification problem, “Mechanisms of   
-Action (MoA) Prediction”, a competition hosted by Kaggle [1]. The core objective  
-is to develop an algorithm that automatically labels each case in the test set  
-as one or more MoA classes. This project deals with a unique imbalanced dataset  
-that combines gene expression and cell viability data in addition to the MoA   
-annotations for more than 5,000 drugs. To begin with the solution, Support   
-Vector Machine (SVM) and hierarchical methods of computation were implemented   
-along with the application of MultilabelStratifiedKFold cross validation   
-technique and K-Means algorithmic approach. Towards meeting the competition’s   
-computation time constraint, GPU boost algorithm was implemented with neural   
-network computation system. This project used log loss as the evaluation metric.  
-Prioritizing only important features on top of hyperparameter tuning and removal  
-of highly similar samples provided better results. One of the challenges was   
-the unavailability of such libraries that could implement oversampling of   
-minority or undersampling of majority for multi labeled dataset. For improving  
-the proposed model’s performance further, it would be helpful to have such   
-libraries to handle the manipulation in overall noise for underrepresented classes.*
-
 
 Problem Statement
 =================
@@ -53,7 +29,7 @@ section 5.2 where,
 
 -   M is the number of scored MoA targets (m=1,…,M)
 
--   Y<sub>i,m</sub> is the predicted probability of a positive MoA response for a sig\_id
+-   <img src="https://render.githubusercontent.com/render/math?math=\hat{y}"> <sub>i,m</sub> is the predicted probability of a positive MoA response for a sig\_id
 
 -   <span>y</span><sub>i,m</sub> is the ground truth, 1 for a positive response, 0 otherwise
 
@@ -172,12 +148,95 @@ columns and more than 50% have only one active target column shown in figure 1.
 Also, figure 2 shows that the biggest number of positive samples for 1 target  
 column is 3.5%.
 
-![Pie Chart](https://github.com/ashish-singh-CS/Mechanisms-of-Action-MoA-Prediction/tree/main/img/data2.png?raw=true)
+![image](https://github.com/ashish-singh-CS/Mechanisms-of-Action-MoA-Prediction/tree/main/img/data2.png)
 
 [fig: Number of activations in targets for every sample (in percent)]
 
-![Chart](https://github.com/ashish-singh-CS/Mechanisms-of-Action-MoA-Prediction/tree/main/img/data1.png?raw=true)
+![image](https://github.com/ashish-singh-CS/Mechanisms-of-Action-MoA-Prediction/tree/main/img/data1.png)
 
 [fig: Percent of positive records for every column in target]
 
 As it is clearly visible from the analysis, the dataset provided to us was really imbalanced.
+
+Evaluation Metrics
+------------------
+
+Log Loss was required by Kaggle so this was the only one used to justify the   
+progression of our work. The scoring function used by Kaggle was following:
+
+score = <img src="https://render.githubusercontent.com/render/math?math=- \frac{1}{M}\sum_{m=1}^{M} \frac{1}{N} \sum_{i=1}^{N} \left[ y_{i,m} \log(\hat{y}_{i,m}) + (1 - y_{i,m}) \log(1 - \hat{y}_{i,m})\right]">
+
+
+
+However, other measures such as accuracy, total compile time, epoch time, memory  
+usage were considered in our overall approach while building the model. During   
+the development of the neural network some settings in the NN gave high accuracy  
+but very low validation. Nevertheless, this was clearly due to overfitting so   
+high accuracy scores were not taken seriously. Total compile time was used to   
+justify using GPU boosted ML models like XGboost and Tensorflow’s Keras. Using   
+some libraries and machine learning techniques like oversampling, undersampling  
+and measuring variances/distances required too much memory for a dataset this large.
+
+Experimental Results
+--------------------
+
+All decisions made were based on comparing previous validation loss scores with  
+new ones which were a result of modifications done in our project.
+
+![image](https://github.com/ashish-singh-CS/Mechanisms-of-Action-MoA-Prediction/tree/main/img/result.png)
+
+[fig: Log loss decreased with continued attempts]
+
+With repeated modifications and development, we were able to improve our rank on  
+Kaggle leaderboard
+
+![image](https://github.com/ashish-singh-CS/Mechanisms-of-Action-MoA-Prediction/tree/main/img/rank.png)
+
+[fig: Kaggle Leaderboard Position]
+
+Conclusion
+==========
+
+There were two major takeaways while doing this project. The first thing we   
+learned was that a comprehensive exploratory data analysis is a significant   
+task for setting up an efficient strategy, feature engineering and   
+postprocessing. The second one is about overfitting issues. As we learned   
+during the course, we realized practically as well while doing this project  
+that overfitting is a great problem. Additionally, reading existing studies   
+on the set of topics most directly related to solving such problems (like   
+our Kaggle competition) makes understanding the problem statement faster and  
+in more depth than without reading any research papers.
+
+Direction for Future Work
+-------------------------
+
+This project was an interesting one to work on. Beyond the constraints,   
+we would use biased and neutral representation of the dataset and feed it to a   
+Convolutional Neural Network (CNN) to see what kind of results it produces.   
+We would also like to create a function that can oversample and undersample   
+the multilabel dataset. We would give deep reinforcement learning a try as we  
+suspect that learning actively through some form of evaluation will yield better  
+information to learn from rather than using supervised learning which is only  
+instructive. A research can also be conducted to figure out a way to calculate   
+similarities between microarray of gene expressions, cell viabilities and  
+both combined.
+
+References
+==========
+
+1.  https://www.kaggle.com/c/lish-moa/overview
+
+2.  https://clue.io/connectopedia/glossary
+
+3.  Zeng, L., Yu, Z., & Zhao, H. (2019). A Pathway-Based Kernel Boosting Method  
+for Sample Classification Using Genomic Data. Genes, 10(9), 670.   
+https://doi.org/10.3390/genes10090670
+
+4.  Liu, S.; Xu, C.; Zhang, Y.; Liu, J.; Yu, B.; Liu, X.; Dehmer, M. Feature   
+selection of gene expression data for Cancer classification using double   
+RBF-kernels. BMC Bioinf. 2018, 19, 396.
+
+5.  Dong, H., Xie, J., Jing, Z., and Ren, D. (2020). Variational Autoencoder  
+for Anti-Cancer Drug Response Prediction. arXiv e-prints, arXiv:2008.09763
+
+6.  https://www.kaggle.com/isaienkov/mechanisms-of-action-moa-prediction-eda/notebook
